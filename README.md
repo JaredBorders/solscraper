@@ -1,6 +1,6 @@
 # Solscrape Documentation
 
-A fast CLI tool written in Rust to scrape and consolidate Solidity smart contract 
+A fast CLI tool written in Rust to scrape and consolidate Solidity smart contract
 source code from git repositories into a single analysis-ready file.
 
 ---
@@ -20,7 +20,7 @@ source code from git repositories into a single analysis-ready file.
 
 ## Overview
 
-**Solscrape** extracts all Solidity source code from a repository and combines it 
+**Solscrape** extracts all Solidity source code from a repository and combines it
 into a single `.sol` file with:
 
 - ✅ All comments removed (single-line `//` and multi-line `/* */`)
@@ -44,77 +44,16 @@ into a single `.sol` file with:
 **Git must be installed on your system.**
 
 Check if Git is installed:
+
 ```bash
 git --version
 ```
 
 If not installed:
+
 - **macOS**: `brew install git` or download from [git-scm.com](https://git-scm.com)
 - **Linux**: `sudo apt install git` (Debian/Ubuntu) or `sudo dnf install git` (Fedora)
 - **Windows**: Download from [git-scm.com](https://git-scm.com/download/win)
-
-### Building from Source
-
-#### Option 1: Direct Compilation (No Dependencies)
-
-```bash
-# Compile the single-file version
-rustc -O solscrape.rs -o solscrape
-
-# Move to a directory in your PATH (optional)
-sudo mv solscrape /usr/local/bin/
-```
-
-#### Option 2: Using Cargo
-
-Create a new project:
-
-```bash
-cargo new solscrape
-cd solscrape
-```
-
-Replace `src/main.rs` with the contents of `solscrape.rs`, then:
-
-```bash
-# Build release binary
-cargo build --release
-
-# The binary will be at: target/release/solscrape
-
-# Install globally (optional)
-cargo install --path .
-```
-
-#### Option 3: Cargo.toml for Enhanced Version
-
-If you want to add dependencies for extra features, use this `Cargo.toml`:
-
-```toml
-[package]
-name = "solscrape"
-version = "1.0.0"
-edition = "2021"
-
-[dependencies]
-# No external dependencies needed for basic version
-
-[profile.release]
-opt-level = 3
-lto = true
-strip = true
-```
-
-### Verify Installation
-
-```bash
-solscrape --version
-# Output: solscrape 1.0.0
-
-solscrape --help
-```
-
----
 
 ## Usage
 
@@ -141,24 +80,24 @@ solscrape ./my-foundry-project --local
 
 ## Options Reference
 
-| Option | Short | Description |
-|--------|-------|-------------|
-| `--help` | `-h` | Show help message |
-| `--version` | `-v` | Show version |
-| `--output <NAME>` | `-o` | Custom output filename (without `_scraped.sol`) |
-| `--local` | `-l` | Treat source as local directory path |
-| `--include-lib` | | Include `lib/` dependencies |
-| `--include-test` | | Include `test/` files |
-| `--include-script` | | Include `script/` files |
-| `--no-headers` | | Omit file separator headers |
-| `--quiet` | `-q` | Minimal output (only print result path) |
+| Option             | Short | Description                                     |
+| ------------------ | ----- | ----------------------------------------------- |
+| `--help`           | `-h`  | Show help message                               |
+| `--version`        | `-v`  | Show version                                    |
+| `--output <NAME>`  | `-o`  | Custom output filename (without `_scraped.sol`) |
+| `--local`          | `-l`  | Treat source as local directory path            |
+| `--include-lib`    |       | Include `lib/` dependencies                     |
+| `--include-test`   |       | Include `test/` files                           |
+| `--include-script` |       | Include `script/` files                         |
+| `--no-headers`     |       | Omit file separator headers                     |
+| `--quiet`          | `-q`  | Minimal output (only print result path)         |
 
 ### Default Excluded Directories
 
 By default, these directories are **excluded**:
 
 ```
-.git, node_modules, lib, out, cache, artifacts, build, 
+.git, node_modules, lib, out, cache, artifacts, build,
 coverage, test, tests, script, scripts, dependencies, .deps
 ```
 
@@ -332,7 +271,7 @@ The parser uses a state machine to correctly handle:
 
 ```
 State Machine:
-                    
+
     ┌─────────────────────────────────────┐
     │                                     │
     ▼                                     │
@@ -360,11 +299,13 @@ State Machine:
 **Solutions**:
 
 1. Install Git:
+
    - macOS: `brew install git`
    - Ubuntu: `sudo apt install git`
    - Windows: Download from git-scm.com
 
 2. Verify installation:
+
    ```bash
    git --version
    ```
@@ -376,11 +317,13 @@ State Machine:
 ### "Failed to clone repository"
 
 **Possible causes**:
+
 - Invalid URL
 - Private repository (needs authentication)
 - Network issues
 
 **Solutions**:
+
 - Verify the URL is correct and accessible
 - For private repos, use SSH URL: `git@github.com:user/repo.git`
 - Check your internet connection
@@ -388,10 +331,12 @@ State Machine:
 ### "No Solidity files found"
 
 **Possible causes**:
+
 - Repository has no `.sol` files
 - All files are in excluded directories
 
 **Solutions**:
+
 - Verify the repository contains Solidity files
 - Use `--include-lib`, `--include-test` if files are in those directories
 - Check if files use `.sol` extension
@@ -399,6 +344,7 @@ State Machine:
 ### "Permission denied" on output
 
 **Solution**:
+
 ```bash
 # Ensure destination directory is writable
 mkdir -p ./output
@@ -408,6 +354,7 @@ solscrape https://github.com/example/repo.git ./output
 ### Large Output File
 
 If the output is very large:
+
 - Don't use `--include-lib` unless necessary (OpenZeppelin alone is huge)
 - Consider scraping only specific subdirectories by cloning first:
   ```bash
@@ -421,33 +368,16 @@ If the output is very large:
 
 Typical performance on a modern machine:
 
-| Repository Size | Files | Time |
-|----------------|-------|------|
-| Small (< 20 files) | ~20 | < 1s |
-| Medium (50-100 files) | ~100 | 1-2s |
-| Large (OpenZeppelin) | ~300 | 3-5s |
+| Repository Size       | Files | Time |
+| --------------------- | ----- | ---- |
+| Small (< 20 files)    | ~20   | < 1s |
+| Medium (50-100 files) | ~100  | 1-2s |
+| Large (OpenZeppelin)  | ~300  | 3-5s |
 
-*Note: Clone time depends on network speed and repository size.*
+_Note: Clone time depends on network speed and repository size._
 
 ---
 
 ## License
 
 MIT License - Feel free to use, modify, and distribute.
-```
-
----
-
-## Quick Start Commands
-
-```bash
-# 1. Save solscrape.rs to your machine
-
-# 2. Compile it
-rustc -O solscrape.rs -o solscrape
-
-# 3. (Optional) Move to PATH
-sudo mv solscrape /usr/local/bin/
-
-# 4. Use it!
-solscrape https://github.com/clober-dex/v2-core.git
