@@ -1,7 +1,7 @@
 //! Solscrape - A CLI tool to scrape Solidity source code from git repositories
 //! 
 //! Compile: rustc -O solscrape.rs -o solscrape
-//! Or with Cargo (see docs.md)
+//! Or with Cargo (see README.md)
 
 use std::collections::HashSet;
 use std::env;
